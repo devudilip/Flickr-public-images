@@ -1,6 +1,10 @@
 Flickr::Application.routes.draw do
 
-  resources :photos
+  resources :photos do
+    member do
+      get :friends_photos
+    end
+  end
 
 
   root :to => "photos#index"

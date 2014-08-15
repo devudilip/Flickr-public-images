@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1><%= @results['title'] %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> Photo </th>
+      <th> Photo Title</th>
+<th> Author </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @results['items'].each do |photo| %>
+    <tr>
+      <td> <img src="<%= photo['description'].split("<img src=").last.split(".jpg").first.gsub("\"", "")%>.jpg " alt="test"> </td>
+
+      <td><%= link_to photo['title'], friends_photos_photo_path(photo['author_id']) %></td>
+      <td> <%= photo['author'].gsub("nobody@flickr.com (", "") %> </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+

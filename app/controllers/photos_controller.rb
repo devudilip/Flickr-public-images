@@ -1,86 +1,35 @@
 class PhotosController < ApplicationController
   require 'open-uri'
   require 'json'
-  # GET /photos
-  # GET /photos.json
+
   def index
     @jsonresults =  open("http://api.flickr.com/services/feeds/photos_public.gne?format=json").read
     @json_hash = JSON.load(@jsonresults.to_json).gsub("jsonFlickrFeed(", "").gsub(")", "")#.first
     @results = JSON.parse(@json_hash)
-    respond_to do |format|
-      format.html # index.html.erb
-    end
   end
 
-  # GET /photos/1
-  # GET /photos/1.json
   def show
     author_id = params[:id]
     @jsonresults =  open("http://api.flickr.com/services/feeds/photos_public.gne?format=json&&id=#{author_id}").read
     @json_hash = JSON.load(@jsonresults.to_json).gsub("jsonFlickrFeed(", "").gsub(")", "")
     @results = JSON.parse(@json_hash)
-    respond_to do |format|
-      format.html # show.html.erb
-    end
   end
 
-  # GET /photos/new
-  # GET /photos/new.json
-  def new
-    @photo = Photo.new
+  def friends_photos
+   contact_id = params[:id]
+   @jsonresults =  open("https://api.flickr.com/services/feeds/photos_friends.gne?user_id=#{contact_id}&&format=json&&friends=1&&&&nojsoncallback=1").read
+   @json_hash = JSON.load(@jsonresults.to_json).gsub("jsonFlickrFeed(", "").gsub(")", "")
+   @results = JSON.parse(@json_hash)
+ end
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @photo }
-    end
+ def friends_photos_public
+  contact_id = params[:id]
+  contact_results =  open("https://api.flickr.com/services/rest/?method=flickr.contacts.getPublicList&&api_key=533e7b41f75718c84c94dad1699f740d&&page=10&&per_page=10&&format=json&&nojsoncallback=1&&user_id=#{params[:id]}").read
+  if JSON.parse(contact_results)['contacts']['contact']
+    @contacts = JSON.parse(contact_results)['contacts']['contact'].map{ |i, arr| arr = i['nsid'] }
+    @jsonresults =  open("http://api.flickr.com/services/feeds/photos_public.gne?format=json&&ids=#{@contacts.join(",")}").read
+    @json_hash = JSON.load(@jsonresults.to_json).gsub("jsonFlickrFeed(", "").gsub(")", "")
+    @results = JSON.parse(@json_hash)
   end
-
-  # GET /photos/1/edit
-  def edit
-    @photo = Photo.find(params[:id])
-  end
-
-  # POST /photos
-  # POST /photos.json
-  def create
-    @photo = Photo.new(params[:photo])
-
-    respond_to do |format|
-      if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
-        format.json { render json: @photo, status: :created, location: @photo }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /photos/1
-  # PUT /photos/1.json
-  def update
-    @photo = Photo.find(params[:id])
-
-    respond_to do |format|
-      if @photo.update_attributes(params[:photo])
-        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /photos/1
-  # DELETE /photos/1.json
-  def destroy
-    @photo = Photo.find(params[:id])
-    @photo.destroy
-
-    respond_to do |format|
-      format.html { redirect_to photos_url }
-      format.json { head :no_content }
-    end
-  end
+end
 end

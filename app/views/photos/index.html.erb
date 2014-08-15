@@ -17,7 +17,7 @@
     <% @results['items'].each do |photo| %>
     <tr>
     <td><%= link_to truncate(photo['title']), photo_path(photo['author_id']), title: photo['title'] %></td>
-      <td> <img src="<%= photo['description'].split("<img src=").last.split(".jpg").first.gsub("\"", "")%>.jpg " alt="test"> </td>
+      <td> <img src="<%= photo['description'].split("<img src=").last.split(".jpg").first.gsub("\"", "")%>.jpg " alt="flickr"> </td>
       <td> <%= photo['author'].gsub("nobody@flickr.com (", "") %> </td>
 
     </tr>
