@@ -12,8 +12,7 @@
   <tbody>
     <% @results['items'].each do |photo| %>
     <tr>
-    <td> <img src="<%= get_clean_url(photo['description'])%>.jpg " > </td>
-
+      <td> <img src="<%= get_clean_url(photo['description'])%>.jpg " > </td>
       <td><%= link_to get_short_title(photo['title']), friends_photos_photo_path(photo['author_id']), title: photo['title'] %></td>
       <td> <%= get_author(photo['author'])%> </td>
     </tr>
