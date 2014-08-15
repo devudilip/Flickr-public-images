@@ -1,7 +1,7 @@
 Test application:
 
 ==> Pulls all public images from flickr.
-==> Shows perticular users uploaded images.
+==> Shows particular users uploaded images.
 ==> user friend's and relative's uploaded images.
 
 Rails: 3.2.19
