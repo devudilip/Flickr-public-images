@@ -1,0 +1,28 @@
+
+<%- model_class = Photo -%>
+<div class="page-header">
+  <h1>Uploaded by all</h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name </th>
+      <th>Photo </th>
+      <th>Author</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <% @results['items'].each do |photo| %>
+    <tr>
+    <td><%= link_to truncate(photo['title']), photo_path(photo['author_id']), title: photo['title'] %></td>
+      <td> <img src="<%= photo['description'].split("<img src=").last.split(".jpg").first.gsub("\"", "")%>.jpg " alt="test"> </td>
+      <td> <%= photo['author'].gsub("nobody@flickr.com (", "") %> </td>
+
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
