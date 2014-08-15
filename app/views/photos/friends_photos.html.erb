@@ -6,16 +6,16 @@
     <tr>
       <th> Photo </th>
       <th> Photo Title</th>
-<th> Author </th>
+      <th> Author </th>
     </tr>
   </thead>
   <tbody>
     <% @results['items'].each do |photo| %>
     <tr>
-      <td> <img src="<%= photo['description'].split("<img src=").last.split(".jpg").first.gsub("\"", "")%>.jpg " alt="test"> </td>
+    <td> <img src="<%= get_clean_url(photo['description'])%>.jpg " > </td>
 
       <td><%= link_to photo['title'], friends_photos_photo_path(photo['author_id']) %></td>
-      <td> <%= photo['author'].gsub("nobody@flickr.com (", "") %> </td>
+      <td> <%= get_author(photo['author'])%> </td>
     </tr>
     <% end %>
   </tbody>
