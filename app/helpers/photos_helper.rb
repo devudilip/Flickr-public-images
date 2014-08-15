@@ -7,4 +7,8 @@ module PhotosHelper
   def get_author name
     name.gsub("nobody@flickr.com (", "") 
   end
+
+  def get_short_title title
+    truncate title
+  end
 end
