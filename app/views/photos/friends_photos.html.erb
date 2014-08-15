@@ -14,7 +14,7 @@
     <tr>
     <td> <img src="<%= get_clean_url(photo['description'])%>.jpg " > </td>
 
-      <td><%= link_to truncate(photo['title'], friends_photos_photo_path(photo['author_id']) %></td>
+      <td><%= link_to truncate(photo['title']), friends_photos_photo_path(photo['author_id']) %></td>
       <td> <%= get_author(photo['author'])%> </td>
     </tr>
     <% end %>
